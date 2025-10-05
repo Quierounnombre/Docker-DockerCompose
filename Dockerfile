@@ -1,8 +1,10 @@
 FROM docker:24.0.5-cli
 
-# Install dependencies
 RUN apk add --no-cache git py3-pip curl \
-    && pip install docker-compose
+    # Add required build dependencies for PyYAML
+    build-base python3-dev libffi-dev openssl-dev cython
+
+RUN pip install docker-compose
 
 # Clone the repo
 # (Replace with your actual repo)
@@ -15,4 +17,4 @@ WORKDIR /app
 COPY .env .env
 
 # Optional: default to docker-compose command
-ENTRYPOINT ["docker-compose"]
+ENTRYPOINT ["docker compose up"]
